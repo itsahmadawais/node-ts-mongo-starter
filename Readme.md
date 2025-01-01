@@ -78,8 +78,8 @@ project-root/
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/itsahmadawais/node-ts-mongo-starter.git
+   cd node-ts-mongo-starter
    ```
 
 2. **Install dependencies:**
