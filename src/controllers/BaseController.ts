@@ -48,35 +48,35 @@ export default class BaseController {
     }
 
     // Get All Records
-    async index(res: Response): Promise<void> {
+    async index(req: Request, res: Response): Promise<void> {
         res.status(HttpStatus.NOT_IMPLEMENTED).json({
             message: "Not Implemented",
         });
     }
 
     // Get Record By Id
-    async getById(res: Response): Promise<void> {
+    async getById(req: Request, res: Response): Promise<void> {
         res.status(HttpStatus.NOT_IMPLEMENTED).json({
             message: "Not Implemented",
         });
     }
 
     // Create New
-    async create(res: Response): Promise<void> {
+    async create(req: Request, res: Response): Promise<void> {
         res.status(HttpStatus.NOT_IMPLEMENTED).json({
             message: "Not Implemented",
         });
     }
 
     // Update By Id
-    async updateById(res: Response): Promise<void> {
+    async updateById(req: Request, res: Response): Promise<void> {
         res.status(HttpStatus.NOT_IMPLEMENTED).json({
             message: "Not Implemented",
         });
     }
 
     // Delete By Id
-    async deleteById(res: Response): Promise<void> {
+    async deleteById(req: Request, res: Response): Promise<void> {
         res.status(HttpStatus.NOT_IMPLEMENTED).json({
             message: "Not Implemented",
         });
