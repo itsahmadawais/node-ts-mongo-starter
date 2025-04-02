@@ -1,1 +1,2 @@
-export * from "./sampleValidation";
+export * from "./sampleValidator";
+export * from "./authValidator";

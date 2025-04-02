@@ -1,16 +1,14 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+import Env from '@/env/Env';
 
-dotenv.config();
-
-const dbURI: string = process.env.MONGODB_URI || '';
+const dbURI: string = Env.MONGODB_URI;
 
 if (!dbURI) {
   console.error('MONGODB_URI environment variable not set.');
   process.exit(1);
 }
 
-const connectDB = async () => {
+const initializeDatabase = async () => {
   try {
     await mongoose.connect(dbURI);
     console.log('DB Connected Successfully.');
@@ -24,7 +22,7 @@ const connectDB = async () => {
   }
 };
 
-export default connectDB;
+export default initializeDatabase;
 
 export const disconnectFromDB = async () => {
   try {

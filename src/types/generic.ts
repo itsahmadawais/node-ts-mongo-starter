@@ -13,4 +13,5 @@ export enum HttpStatus {
 export interface ErrorDetails {
     statusCode: number;
     message: string;
+    stack?: string; // Optional: Include stack trace for development
 }

@@ -1,49 +1,63 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-
-import { ErrorDetails, HttpStatus } from "../types";
+import { ErrorDetails, HttpStatus } from "@/types";
+import Env from "@/env/Env";
 
 export default class BaseController {
     protected sendResponse(res: Response, statusCode: HttpStatus = HttpStatus.OK, data: any) {
         res.status(statusCode as number).json(data);
     }
 
-    protected sendError(res: Response, error: any, customError?: ErrorDetails) {
+    protected sendError(res: Response, error: ErrorDetails | any) {
         let errorDetails: ErrorDetails;
 
-        console.log(error);
+        if(Env.NODE_ENV === 'development') console.log(error);
 
-        if (customError) {
-            errorDetails = customError;
-        } else if (error instanceof mongoose.Error.ValidationError) {
+        // Check if the error is already an instance of ErrorDetails
+        if (error && typeof error.statusCode === 'number' && typeof error.message === 'string') {
+            errorDetails = error;  // It's an ErrorDetails-like object
+        }
+
+        // Handle Mongoose validation errors
+        else if (error instanceof mongoose.Error.ValidationError) {
             errorDetails = {
                 statusCode: HttpStatus.BAD_REQUEST,
-                message: "Validation Error: " + error.message,
+                message: `Validation Error: ${error.message}`,
             };
-        } else if (error instanceof mongoose.Error.DocumentNotFoundError) {
+        }
+        // Handle Mongoose document not found error
+        else if (error instanceof mongoose.Error.DocumentNotFoundError) {
             errorDetails = {
                 statusCode: HttpStatus.NOT_FOUND,
                 message: "Document not found",
             };
-        } else if (error instanceof mongoose.Error.CastError) {
+        }
+        // Handle Mongoose cast error
+        else if (error instanceof mongoose.Error.CastError) {
             errorDetails = {
                 statusCode: HttpStatus.BAD_REQUEST,
-                message: "Cast Error: " + error.message,
+                message: `Cast Error: ${error.message}`,
             };
-        } else if (error instanceof Error) {
+        }
+        // Handle other general JavaScript errors
+        else if (error instanceof Error) {
             errorDetails = {
                 statusCode: HttpStatus.BAD_REQUEST,
                 message: error.message,
             };
-        } else {
+        }
+        // Fallback for unknown errors
+        else {
             errorDetails = {
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
                 message: "An unknown error occurred!",
             };
         }
 
+        // Send the error response
         res.status(errorDetails.statusCode).json({
             message: errorDetails.message,
+            stack: process.env.NODE_ENV === 'development' ? errorDetails.stack : undefined, // Include stack trace only in development
         });
     }
 
