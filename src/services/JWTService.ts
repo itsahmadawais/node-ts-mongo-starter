@@ -9,7 +9,7 @@ class JWTService {
     }
 
     static generateRefreshToken(payload: Partial<UserDocument>): string {
-        return jwt.sign(payload, Env.REFRESH_TOKN_SECRET, { expiresIn: Env.REFRESH_TOKEN_EXPIRY });
+        return jwt.sign(payload, Env.REFRESH_TOKEN_SECRET, { expiresIn: Env.REFRESH_TOKEN_EXPIRY });
     }
 
     static verifyAccessToken(token: string): any {
@@ -17,7 +17,7 @@ class JWTService {
     }
 
     static verifyRefreshToken(token: string): any {
-        return jwt.verify(token, Env.REFRESH_TOKN_SECRET);
+        return jwt.verify(token, Env.REFRESH_TOKEN_EXPIRY);
     }
 }
 
