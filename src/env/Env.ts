@@ -1,17 +1,39 @@
-class Env {
-    static readonly PORT = process.env.PORT || "4001";
+import { defineEnvSchema } from "typed-env-safe";
 
-    static readonly SALT_FACTOR = process.env.SALT_FACTOR || 10;
-
-    static readonly MONGODB_URI = process.env.MONGODB_URI || "";
-
-    static readonly NODE_ENV = process.env.NODE_ENV || "development";
-
-    static readonly ACCESS_TOKEN_SECRET: string = process.env.ACCESS_TOKEN_SECRET || "defaultAccessTokenSecret";
-    static readonly REFRESH_TOKN_SECRET: string = process.env.REFRESH_TOKEN_SECRET || "defaultRefreshTokenSecret";
-    static readonly ACCESS_TOKEN_EXPIRY: string = process.env.ACCESS_TOKEN_EXPIRY || "365d";
-    static readonly REFRESH_TOKEN_EXPIRY: string = process.env.REFRESH_TOKEN_EXPIRY || "7d";
-
-}
+const Env = defineEnvSchema({
+  PORT: {
+    type: "number",
+    default: 4001,
+  },
+  SALT_FACTOR: {
+    type: "number",
+    default: 10,
+  },
+  MONGODB_URI: {
+    type: "string",
+    required: true,
+  },
+  NODE_ENV: {
+    type: "string",
+    default: "development",
+    choices: ["development", "production", "test"],
+  },
+  ACCESS_TOKEN_SECRET: {
+    type: "string",
+    default: "defaultAccessTokenSecret",
+  },
+  REFRESH_TOKEN_SECRET: {
+    type: "string",
+    default: "defaultRefreshTokenSecret",
+  },
+  ACCESS_TOKEN_EXPIRY: {
+    type: "string",
+    default: "365d",
+  },
+  REFRESH_TOKEN_EXPIRY: {
+    type: "string",
+    default: "7d",
+  },
+});
 
 export default Env;
